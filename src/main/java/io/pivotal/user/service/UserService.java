@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * The service in the user microservice.
- * 
+ *
  * @author David Ferreira Pinto
  *
  */
@@ -37,7 +37,7 @@ public class UserService {
 	/**
 	 * Retrieve a user with given id. The id here is the unique id value of the
 	 * account managed by the repository (auto-increment).
-	 * 
+	 *
 	 * @param id
 	 *            The id of the account.
 	 * @return The account object if found or throws a NoRecordsFoundException.
@@ -46,7 +46,9 @@ public class UserService {
 
 		logger.debug("user.findAccount: id=" + id);
 
-		User account = user.findOne(id);
+    // JLS Spring 5 Update
+		// User account = user.findOne(id);
+		User account = user.findById(id).orElse(null);
 		if (account == null) {
 			logger.warn("UserService.findAccount: could not find account with id: "
 					+ id);
@@ -63,7 +65,7 @@ public class UserService {
 	/**
 	 * Retrieve a user with given username. The id here is the unique user id
 	 * value of the account, ie the username.
-	 * 
+	 *
 	 * @param username
 	 *            The user name of the account.
 	 * @return The user object if found or throws a NoRecordsFoundException.
@@ -89,7 +91,7 @@ public class UserService {
 	/**
 	 * Retrieves the account by the authorization token associated with that
 	 * account and current login.
-	 * 
+	 *
 	 * @param token
 	 *            The token to search for.
 	 * @return The account object if found or AuthenticationException otherwise.
@@ -116,7 +118,7 @@ public class UserService {
 
 	/**
 	 * Saves the given account in the repository.
-	 * 
+	 *
 	 * @param accountRequest
 	 *            The account to save.
 	 * @return the id of the account.
@@ -141,7 +143,7 @@ public class UserService {
 	 * Attempts to login the user with the given username and password. Throws
 	 * AuthenticationException if an account with the given username and
 	 * password cannot be found.
-	 * 
+	 *
 	 * @param username
 	 *            The username to login.
 	 * @param password
@@ -179,7 +181,7 @@ public class UserService {
 
 	/**
 	 * logs the give user out of the system.
-	 * 
+	 *
 	 * @param userId
 	 *            the userid to logout.
 	 * @return The account object or null;
